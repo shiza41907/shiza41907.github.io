@@ -72,7 +72,7 @@ class Board:
         win.fill(BURLYWOOD)
         for row in range(ROWS):
             for col in range(row % 2, COLS, 2):
-                pygame.draw.rect(win, BURNTSIENNA, (row*SQUARE_SIZE, col *SQUARE_SIZE, SQUARE_SIZE, SQUARE_SIZE))
+                pygame.draw.rect(win, BURNTSIENNA, (row * SQUARE_SIZE, col * SQUARE_SIZE, SQUARE_SIZE, SQUARE_SIZE))
 
     def move(self, piece, row, col):
         self.board[piece.row][piece.col], self.board[row][col] = self.board[row][col], self.board[piece.row][piece.col]
@@ -269,14 +269,44 @@ class Game:
             self.turn = WHITE
         else:
             self.turn = RED
-        
+
+def game_intro():
+    intro = False
+    clock = pygame.time.Clock()
+
+    size = (600, 600)
+    screen = pygame.display.set_mode(size)
+    background_image = pygame.image.load("Checkers game/assets/purplebackgroundassets.jpg").convert()
+    screen.blit(background_image, [0, 0])
+
+    pygame.display.flip()
+    import time
+    time.sleep(5)
+          
+    while intro:
+        for event in pygame.event.get():
+            print(event)
+        if event.type == pygame.QUIT:
+            pygame.quit()
+            quit()
+
+    pygame.display.update()
+
 def main():
+
+    game_intro()
+
+    pygame.display.update()
+
     run = True
     clock = pygame.time.Clock()
     game = Game(WIN)
 
     while run:
         clock.tick(FPS)
+
+        if game.winner() != None:
+            print(game.winner())
 
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
